@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}My Capsules - DearMe{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">My Capsules</h1>
+        <a href="{% url 'capsule-create' %}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Create New Capsule
+        </a>
+    </div>
+    
+    {% if capsules %}
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-hourglass-half me-2"></i>Waiting to Open</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted small mb-3">Capsules with a future opening date</p>
+                        <div class="list-group">
+                            {% for capsule in capsules %}
+                                {% if not capsule.is_opened and not capsule.is_ready_to_open %}
+                                    <a href="{% url 'capsule-detail' capsule.pk %}" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ capsule.title }}</h6>
+                                            <small>{{ capsule.days_until_open }} days</small>
+                                        </div>
+                                        <small class="text-muted">Created: {{ capsule.created_at|date:"M d, Y" }}</small>
+                                        <br>
+                                        <small class="text-muted">Opens: {{ capsule.open_date|date:"M d, Y" }}</small>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-unlock-alt me-2"></i>Ready to Open</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted small mb-3">Capsules that can be opened now</p>
+                        <div class="list-group">
+                            {% for capsule in capsules %}
+                                {% if not capsule.is_opened and capsule.is_ready_to_open %}
+                                    <a href="{% url 'capsule-detail' capsule.pk %}" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ capsule.title }}</h6>
+                                            <span class="badge bg-success">Ready</span>
+                                        </div>
+                                        <small class="text-muted">Created: {{ capsule.created_at|date:"M d, Y" }}</small>
+                                        <br>
+                                        <small class="text-muted">Opening date: {{ capsule.open_date|date:"M d, Y" }}</small>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-box-open me-2"></i>Opened</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted small mb-3">Capsules you've already opened</p>
+                        <div class="list-group">
+                            {% for capsule in capsules %}
+                                {% if capsule.is_opened %}
+                                    <a href="{% url 'capsule-detail' capsule.pk %}" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ capsule.title }}</h6>
+                                            <small>{{ capsule.created_at|date:"M d, Y" }}</small>
+                                        </div>
+                                        <small class="text-muted">Opened on: {{ capsule.open_date|date:"M d, Y" }}</small>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="card shadow">
+            <div class="card-body text-center p-5">
+                <div class="display-1 text-muted mb-3">
+                    <i class="fas fa-box"></i>
+                </div>
+                <h3>You don't have any capsules yet</h3>
+                <p class="text-muted mb-4">Create your first time capsule to start preserving your memories.</p>
+                <a href="{% url 'capsule-create' %}" class="btn btn-lg btn-primary">
+                    <i class="fas fa-plus me-2"></i>Create Your First Capsule
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
