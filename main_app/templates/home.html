@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}DearMe{% endblock %}
+
+{% block content %}
+<section class="hero py-5 text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Preserve Your Memories for the Future</h1>
+        <p class="lead mb-4">Create digital time capsules and set a date to open them. Capture moments today to revisit tomorrow.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <a href="{% url 'signup' %}" class="btn btn-primary btn-lg px-4 me-sm-3">Get Started</a>
+            <a href="{% url 'about' %}" class="btn btn-outline-secondary btn-lg px-4">Learn More</a>
+        </div>
+    </div>
+</section>
+
+<section class="features py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">How It Works</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3">
+                            <i class="fas fa-plus-circle fa-2x p-3"></i>
+                        </div>
+                        <h3 class="card-title">Create</h3>
+                        <p class="card-text">Create a time capsule and add text, images, links, and other content that you want to preserve.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3">
+                            <i class="fas fa-clock fa-2x p-3"></i>
+                        </div>
+                        <h3 class="card-title">Wait</h3>
+                        <p class="card-text">Set a future date when your time capsule will be unlocked. Wait for the time to pass.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3">
+                            <i class="fas fa-unlock-alt fa-2x p-3"></i>
+                        </div>
+                        <h3 class="card-title">Open</h3>
+                        <p class="card-text">When the time comes, receive a notification and unlock your time capsule to revisit memories from the past.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="cta py-5 text-center">
+    <div class="container">
+        <h2 class="mb-3">Ready to Create Your First Time Capsule?</h2>
+        <p class="lead mb-4">Join thousands of users who are preserving their memories with DearMe.</p>
+        <a href="{% url 'signup' %}" class="btn btn-lg btn-primary">Sign Up Now</a>
+    </div>
+</section>
+{% endblock %}

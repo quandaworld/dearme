@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}About - DearMe{% endblock %}
+
+{% block content %}
+<div class="card shadow mb-4">
+    <div class="card-body p-4">
+        <h1 class="mb-4">About DearMe</h1>
+        
+        <p class="lead">DearMe is a digital time capsule application that lets you preserve memories for your future self.</p>
+        
+        <hr class="my-4">
+        
+        <h3>Our Story</h3>
+        <p>DearMe was created with a simple idea in mind: to help people connect with their past and future selves. In a world where we're constantly moving forward, we sometimes forget to pause and reflect on our journey. DearMe provides a space for that reflection.</p>
+        
+        <h3>How It Works</h3>
+        <p>Create digital time capsules by adding text, images, links, and other content. Set a future date when you want to open your capsule. When that date arrives, you'll receive a notification that your capsule is ready to be opened, allowing you to revisit your past thoughts and memories.</p>
+        
+        <h3>Our Features</h3>
+        <div class="row mt-4">
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-lock me-2"></i>Private Capsules</h5>
+                        <p class="card-text">Keep your thoughts completely private, or choose to share them with friends or make them public.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-history me-2"></i>Timeline View</h5>
+                        <p class="card-text">View all your opened capsules in a chronological timeline to see how you've changed over time.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-calendar-day me-2"></i>On This Day</h5>
+                        <p class="card-text">Discover capsules you created on this day in previous years.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{% url 'signup' %}" class="btn btn-primary btn-lg">Get Started</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
