@@ -1,0 +1,43 @@
+{% load timeline_tags %}
+
+<div class="card h-100 shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">{{ capsule.title }}</h5>
+        <p class="card-text text-muted mb-2">
+            <small>
+                <i class="far fa-calendar-alt me-1"></i>
+                Created {{ capsule.created_at|date_format }}
+            </small>
+        </p>
+        {% if capsule.is_opened %}
+            <div class="badge bg-success mb-2">Opened</div>
+        {% elif capsule.is_ready_to_open %}
+            <div class="badge bg-warning text-dark mb-2">Ready to Open</div>
+        {% else %}
+            <div class="badge bg-primary mb-2">
+                <i class="far fa-clock me-1"></i>
+                Opens in {{ capsule.days_until_open }} days
+            </div>
+        {% endif %}
+        <p class="card-text">
+            {% if capsule.description %}
+                {{ capsule.description|truncatechars:100 }}
+            {% else %}
+                <span class="text-muted">No description provided.</span>
+            {% endif %}
+        </p>
+    </div>
+    <div class="card-footer bg-white border-top-0">
+        <a href="{% url 'capsule-detail' pk=capsule.pk %}" class="btn btn-sm btn-outline-primary">View Details</a>
+        
+        {% if user == capsule.user and not capsule.is_opened %}
+            {% if capsule.is_ready_to_open %}
+                <form method="post" action="{% url 'open-capsule' pk=capsule.pk %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-success">Open Now</button>
+                </form>
+            {% endif %}
+            <a href="{% url 'capsule-update' pk=capsule.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+        {% endif %}
+    </div>
+</div>
