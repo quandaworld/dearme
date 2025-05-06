@@ -11,7 +11,7 @@ from django.contrib import messages
 from .models import TimeCapsule, CapsuleItem, UserProfile
 from .forms import (
     UserRegistrationForm, TimeCapsuleForm, TextItemForm, 
-    ImageItemForm, LinkItemForm, UserProfileForm
+    ImageItemForm, LinkItemForm
 )
 
 # Home and public pages
@@ -42,51 +42,6 @@ def signup(request):
         form = UserRegistrationForm()
     
     return render(request, 'registration/signup.html', {'form': form})
-
-# User profile views
-@login_required
-def profile(request, username=None):
-    """View for user profile"""
-    if username and username != request.user.username:
-        # Viewing someone else's profile
-        user = get_object_or_404(User, username=username)
-        profile = get_object_or_404(UserProfile, user=user)
-        
-        # No capsules shown since all are private
-        capsules = None
-        
-        editable = False
-    else:
-        # Viewing own profile
-        user = request.user
-        profile = get_object_or_404(UserProfile, user=user)
-        capsules = None  # Not showing capsules on own profile view
-        editable = True
-    
-    context = {
-        'profile_user': user,
-        'profile': profile,
-        'capsules': capsules,
-        'editable': editable,
-    }
-    
-    return render(request, 'registration/profile.html', context)
-
-@login_required
-def edit_profile(request):
-    """View for editing user profile"""
-    profile = get_object_or_404(UserProfile, user=request.user)
-    
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Profile updated successfully!')
-            return redirect('profile')
-    else:
-        form = UserProfileForm(instance=profile)
-    
-    return render(request, 'registration/profile_edit.html', {'form': form})
 
 # Dashboard view
 @login_required

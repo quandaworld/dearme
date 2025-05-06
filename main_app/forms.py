@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.utils import timezone
-from .models import TimeCapsule, CapsuleItem, UserProfile
+from .models import TimeCapsule, CapsuleItem
 
 class UserRegistrationForm(UserCreationForm):
     """Form for user registration with additional fields"""
@@ -99,14 +99,3 @@ class LinkItemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(LinkItemForm, self).__init__(*args, **kwargs)
         self.instance.item_type = 'link'
-
-class UserProfileForm(forms.ModelForm):
-    """Form for editing user profile information"""
-    date_of_birth = forms.DateField(
-        widget=forms.DateInput(attrs={'type': 'date'}),
-        required=False
-    )
-    
-    class Meta:
-        model = UserProfile
-        fields = ['bio', 'avatar', 'date_of_birth']

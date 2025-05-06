@@ -11,11 +11,6 @@ urlpatterns = [
     # Authentication routes
     path('accounts/signup/', views.signup, name='signup'),
     
-    # User profile routes
-    path('profile/', views.profile, name='profile'),
-    path('profile/<str:username>/', views.profile, name='profile-user'),
-    path('profile/edit/', views.edit_profile, name='edit-profile'),
-    
     # Dashboard and main features
     path('dashboard/', views.dashboard, name='dashboard'),
     path('timeline/', views.timeline, name='timeline'),
