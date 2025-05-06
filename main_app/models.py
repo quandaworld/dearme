@@ -8,6 +8,11 @@ def get_image_path(instance, filename):
     """Generate a file path for an image uploaded to a capsule item"""
     return os.path.join('capsule_images', str(instance.capsule.user.id), filename)
 
+# This function is kept only for migration compatibility
+def get_audio_path(instance, filename):
+    """Generate a file path for an audio uploaded to a capsule item"""
+    return os.path.join('capsule_audio', str(instance.capsule.user.id), filename)
+
 class TimeCapsule(models.Model):
     """Model representing a time capsule"""
     VISIBILITY_CHOICES = [
@@ -53,8 +58,6 @@ class CapsuleItem(models.Model):
         ('text', 'Text'),
         ('image', 'Image'),
         ('link', 'Link'),
-        ('audio', 'Audio'),
-        ('video', 'Video'),
     ]
     
     capsule = models.ForeignKey(TimeCapsule, on_delete=models.CASCADE, related_name='items')
