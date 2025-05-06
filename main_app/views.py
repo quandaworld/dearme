@@ -200,16 +200,21 @@ class CapsuleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context['title'] = 'Edit Time Capsule'
         return context
 
-class CapsuleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+@login_required
+def delete_capsule(request, pk):
     """View for deleting a capsule"""
-    model = TimeCapsule
-    template_name = 'capsules/confirm_delete.html'
-    success_url = reverse_lazy('capsules')
+    capsule = get_object_or_404(TimeCapsule, pk=pk)
     
-    def test_func(self):
-        """Check if user can delete this capsule"""
-        capsule = self.get_object()
-        return capsule.user == self.request.user
+    # Ensure the user owns this capsule
+    if capsule.user != request.user:
+        messages.error(request, "You cannot delete someone else's capsule.")
+        return redirect('capsules')
+    
+    # Delete the capsule
+    title = capsule.title
+    capsule.delete()
+    messages.success(request, f"Capsule '{title}' has been deleted.")
+    return redirect('capsules')
 
 @login_required
 def open_capsule(request, pk):
@@ -350,17 +355,10 @@ def delete_item(request, item_id):
         messages.error(request, "You cannot remove items from an opened capsule.")
         return redirect('capsule-detail', pk=capsule.pk)
     
-    if request.method == 'POST':
-        item.delete()
-        messages.success(request, "Item removed successfully!")
-        return redirect('capsule-detail', pk=capsule.pk)
-    
-    context = {
-        'item': item,
-        'capsule': capsule,
-    }
-    
-    return render(request, 'items/confirm_delete.html', context)
+    # Delete the item immediately
+    item.delete()
+    messages.success(request, "Item removed successfully!")
+    return redirect('capsule-detail', pk=capsule.pk)
 
 # Timeline views
 @login_required

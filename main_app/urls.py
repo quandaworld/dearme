@@ -26,7 +26,7 @@ urlpatterns = [
     path('capsules/<int:pk>/', views.CapsuleDetailView.as_view(), name='capsule-detail'),
     path('capsules/new/', views.CapsuleCreateView.as_view(), name='capsule-create'),
     path('capsules/<int:pk>/edit/', views.CapsuleUpdateView.as_view(), name='capsule-update'),
-    path('capsules/<int:pk>/delete/', views.CapsuleDeleteView.as_view(), name='capsule-delete'),
+    path('capsules/<int:pk>/delete/', views.delete_capsule, name='capsule-delete'),
     path('capsules/<int:pk>/open/', views.open_capsule, name='open-capsule'),
     
     # Capsule Item routes
