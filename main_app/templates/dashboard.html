@@ -4,140 +4,137 @@
 {% block title %}Dashboard - DearMe{% endblock %}
 
 {% block content %}
-<div class="row mb-4">
-    <div class="col">
-        <h1 class="mb-4">Dashboard</h1>
-        <p class="lead">Welcome back, {{ user.first_name|default:user.username }}!</p>
-    </div>
-    <div class="col-auto">
-        <a href="{% url 'capsule-create' %}" class="btn btn-primary mt-3">
-            <i class="fas fa-plus-circle me-2"></i>Create New Capsule
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="page-header mb-0">Dashboard</h2>
+        <a href="{% url 'capsule-create' %}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Create New Capsule
         </a>
     </div>
-</div>
 
-{% if ready_capsules %}
-<div class="card mb-4 border-warning">
-    <div class="card-header bg-warning text-dark">
-        <h5 class="mb-0"><i class="fas fa-exclamation-circle me-2"></i>Capsules Ready to Open!</h5>
-    </div>
-    <div class="card-body">
-        <p>You have {{ ready_capsules.count }} capsule(s) that are ready to be opened!</p>
-        <div class="row row-cols-1 row-cols-md-2 g-4">
-            {% for capsule in ready_capsules %}
-            <div class="col">
-                {% include "partials/capsule_card.html" with capsule=capsule %}
+    {% if ready_capsules %}
+    <div class="card mb-4 border-warning">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0"><i class="fas fa-exclamation-circle me-2"></i>Capsules Ready to Open!</h5>
+        </div>
+        <div class="card-body">
+            <p>You have {{ ready_capsules.count }} capsule(s) that are ready to be opened!</p>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                {% for capsule in ready_capsules %}
+                <div class="col">
+                    {% include "partials/capsule_card.html" with capsule=capsule %}
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </div>
-</div>
-{% endif %}
+    {% endif %}
 
-{% if on_this_day %}
-<div class="card mb-4 border-info">
-    <div class="card-header bg-info text-white">
-        <h5 class="mb-0"><i class="fas fa-calendar-day me-2"></i>On This Day</h5>
-    </div>
-    <div class="card-body">
-        <p>You have capsules created on this day in the past:</p>
-        <div class="row row-cols-1 row-cols-md-2 g-4">
-            {% for capsule in on_this_day %}
-            <div class="col">
-                {% include "partials/capsule_card.html" with capsule=capsule %}
+    {% if on_this_day %}
+    <div class="card mb-4 border-info">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0"><i class="fas fa-calendar-day me-2"></i>On This Day</h5>
+        </div>
+        <div class="card-body">
+            <p>You have capsules created on this day in the past:</p>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                {% for capsule in on_this_day %}
+                <div class="col">
+                    {% include "partials/capsule_card.html" with capsule=capsule %}
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
-        <div class="text-center mt-3">
-            <a href="{% url 'on-this-day' %}" class="btn btn-outline-info">View All "On This Day" Memories</a>
+            <div class="text-center mt-3">
+                <a href="{% url 'on-this-day' %}" class="btn btn-outline-info">View All "On This Day" Memories</a>
+            </div>
         </div>
     </div>
-</div>
-{% endif %}
+    {% endif %}
 
-<div class="row my-4">
-    <div class="col-md-6">
-        <div class="card h-100">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0"><i class="fas fa-hourglass-half me-2"></i>Upcoming Capsules</h5>
+    <div class="row my-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-hourglass-half me-2"></i>Upcoming Capsules</h5>
+                </div>
+                <div class="card-body">
+                    {% if upcoming_capsules %}
+                    <div class="list-group">
+                        {% for capsule in upcoming_capsules %}
+                        <a href="{% url 'capsule-detail' pk=capsule.pk %}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ capsule.title }}</h5>
+                                <small class="text-muted">{{ capsule.days_until_open }} days left</small>
+                            </div>
+                            <p class="mb-1">{{ capsule.description|truncatechars:100 }}</p>
+                            <small class="text-muted">Opens on {{ capsule.open_date|date:"F j, Y" }}</small>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'capsules' %}" class="btn btn-outline-primary">View All Capsules</a>
+                    </div>
+                    {% else %}
+                    <p>You don't have any upcoming capsules.</p>
+                    <a href="{% url 'capsule-create' %}" class="btn btn-primary">Create Your First Capsule</a>
+                    {% endif %}
+                </div>
             </div>
-            <div class="card-body">
-                {% if upcoming_capsules %}
-                <div class="list-group">
-                    {% for capsule in upcoming_capsules %}
-                    <a href="{% url 'capsule-detail' pk=capsule.pk %}" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{{ capsule.title }}</h5>
-                            <small class="text-muted">{{ capsule.days_until_open }} days left</small>
-                        </div>
-                        <p class="mb-1">{{ capsule.description|truncatechars:100 }}</p>
-                        <small class="text-muted">Opens on {{ capsule.open_date|date:"F j, Y" }}</small>
-                    </a>
-                    {% endfor %}
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-unlock-alt me-2"></i>Recently Opened Capsules</h5>
                 </div>
-                <div class="text-center mt-3">
-                    <a href="{% url 'capsules' %}" class="btn btn-outline-primary">View All Capsules</a>
+                <div class="card-body">
+                    {% if opened_capsules %}
+                    <div class="list-group">
+                        {% for capsule in opened_capsules %}
+                        <a href="{% url 'capsule-detail' pk=capsule.pk %}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ capsule.title }}</h5>
+                                <small class="text-muted">Opened {{ capsule.open_date|time_since }}</small>
+                            </div>
+                            <p class="mb-1">{{ capsule.description|truncatechars:100 }}</p>
+                            <small class="text-muted">Created on {{ capsule.created_at|date:"F j, Y" }}</small>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'timeline' %}" class="btn btn-outline-success">View Timeline</a>
+                    </div>
+                    {% else %}
+                    <p>You haven't opened any capsules yet.</p>
+                    {% endif %}
                 </div>
-                {% else %}
-                <p>You don't have any upcoming capsules.</p>
-                <a href="{% url 'capsule-create' %}" class="btn btn-primary">Create Your First Capsule</a>
-                {% endif %}
             </div>
         </div>
     </div>
-    
-    <div class="col-md-6">
-        <div class="card h-100">
-            <div class="card-header bg-success text-white">
-                <h5 class="mb-0"><i class="fas fa-unlock-alt me-2"></i>Recently Opened Capsules</h5>
-            </div>
-            <div class="card-body">
-                {% if opened_capsules %}
-                <div class="list-group">
-                    {% for capsule in opened_capsules %}
-                    <a href="{% url 'capsule-detail' pk=capsule.pk %}" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{{ capsule.title }}</h5>
-                            <small class="text-muted">Opened {{ capsule.open_date|time_since }}</small>
-                        </div>
-                        <p class="mb-1">{{ capsule.description|truncatechars:100 }}</p>
-                        <small class="text-muted">Created on {{ capsule.created_at|date:"F j, Y" }}</small>
-                    </a>
-                    {% endfor %}
-                </div>
-                <div class="text-center mt-3">
-                    <a href="{% url 'timeline' %}" class="btn btn-outline-success">View Timeline</a>
-                </div>
-                {% else %}
-                <p>You haven't opened any capsules yet.</p>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="row stats-row py-4">
-    <div class="col-md-4">
-        <div class="card text-center h-100 border-0 shadow-sm">
-            <div class="card-body">
-                <div class="display-4 mb-2">{{ upcoming_capsules.count|add:ready_capsules.count|add:opened_capsules.count }}</div>
-                <h5>Total Capsules</h5>
+    <div class="row stats-row py-4">
+        <div class="col-md-4">
+            <div class="card text-center h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="display-4 mb-2">{{ upcoming_capsules.count|add:ready_capsules.count|add:opened_capsules.count }}</div>
+                    <h5>Total Capsules</h5>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card text-center h-100 border-0 shadow-sm">
-            <div class="card-body">
-                <div class="display-4 mb-2">{{ opened_capsules.count }}</div>
-                <h5>Opened Capsules</h5>
+        <div class="col-md-4">
+            <div class="card text-center h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="display-4 mb-2">{{ opened_capsules.count }}</div>
+                    <h5>Opened Capsules</h5>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card text-center h-100 border-0 shadow-sm">
-            <div class="card-body">
-                <div class="display-4 mb-2">{{ ready_capsules.count }}</div>
-                <h5>Ready to Open</h5>
+        <div class="col-md-4">
+            <div class="card text-center h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="display-4 mb-2">{{ ready_capsules.count }}</div>
+                    <h5>Ready to Open</h5>
+                </div>
             </div>
         </div>
     </div>
