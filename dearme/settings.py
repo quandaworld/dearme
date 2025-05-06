@@ -80,6 +80,7 @@ WSGI_APPLICATION = 'dearme.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Default database configuration for local development
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -91,12 +92,9 @@ DATABASES = {
     }
 }
 
-# Use DATABASE_URL environment variable for production database
+# Override with DATABASE_URL environment variable if available (Heroku)
 if 'DATABASE_URL' in os.environ:
-    DATABASES['default'] = dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'))
 
 
 # Password validation
