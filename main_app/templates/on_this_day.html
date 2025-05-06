@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load timeline_tags %}
+
+{% block title %}On This Day - DearMe{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="page-header mb-0">On This Day</h2>
+        <a href="{% url 'capsule-create' %}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Create New Capsule
+        </a>
+    </div>
+    
+    <div class="card mb-4 on-this-day-header">
+        <div class="card-body text-center py-4">
+            <h3 class="mb-3">{{ today|date:"F j" }}</h3>
+            <p class="lead">Memories from this day in previous years</p>
+        </div>
+    </div>
+    
+    {% if capsules %}
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for capsule in capsules %}
+                <div class="col">
+                    <div class="card h-100 on-this-day-card">
+                        <div class="card-header bg-info text-white">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">{{ capsule.created_at|date:"Y" }}</h5>
+                                <span class="badge bg-light text-dark">{{ capsule.created_at|timesince:today }} ago</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">{{ capsule.title }}</h4>
+                            {% if capsule.description %}
+                                <p class="card-text">{{ capsule.description }}</p>
+                            {% endif %}
+                            
+                            {% if capsule.items.count > 0 %}
+                                <div class="memory-highlights mt-3">
+                                    <h6 class="text-muted mb-2">Memory Highlights:</h6>
+                                    <div class="row g-2">
+                                        {% for item in capsule.items.all|slice:":4" %}
+                                            <div class="col-6">
+                                                {% if item.item_type == 'image' and item.image %}
+                                                    <img src="{{ item.image.url }}" alt="{{ item.title }}" class="img-fluid rounded shadow-sm">
+                                                {% elif item.item_type == 'text' %}
+                                                    <div class="p-2 bg-light rounded shadow-sm">
+                                                        <small>{{ item.text_content|truncatechars:60 }}</small>
+                                                    </div>
+                                                {% elif item.item_type == 'link' %}
+                                                    <div class="p-2 bg-light rounded shadow-sm">
+                                                        <i class="fas fa-link me-1"></i>
+                                                        <small>{{ item.link_url|truncatechars:25 }}</small>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="{% url 'capsule-detail' pk=capsule.pk %}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye me-1"></i>View Full Memory
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card shadow">
+            <div class="card-body text-center p-5">
+                <div class="display-1 text-muted mb-3">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <h3>No Memories On This Day</h3>
+                <p class="text-muted mb-4">You don't have any capsules that were created on {{ today|date:"F j" }} in previous years.</p>
+                <div>
+                    <a href="{% url 'capsule-create' %}" class="btn btn-primary me-2">
+                        <i class="fas fa-plus me-2"></i>Create a Capsule
+                    </a>
+                    <a href="{% url 'timeline' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-history me-2"></i>View Timeline
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .on-this-day-header {
+        background-color: var(--light-color);
+    }
+    
+    .on-this-day-card {
+        border-left: 4px solid var(--info-color);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load timeline_tags %}
+
+{% block title %}Timeline - DearMe{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="page-header mb-0">Your Memory Timeline</h2>
+        <a href="{% url 'capsule-create' %}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Create New Capsule
+        </a>
+    </div>
+    
+    {% if capsules %}
+        <div class="timeline">
+            {% for capsule in capsules %}
+                <div class="timeline-container {% cycle 'timeline-left' 'timeline-right' %}">
+                    <div class="timeline-content">
+                        <h3 class="mb-2">{{ capsule.title }}</h3>
+                        <div class="text-muted mb-3">
+                            <i class="far fa-calendar-alt me-1"></i> Created on {{ capsule.created_at|date:"F j, Y" }}
+                            <br>
+                            <i class="fas fa-unlock-alt me-1"></i> Opened on {{ capsule.open_date|date:"F j, Y" }}
+                        </div>
+                        
+                        {% if capsule.description %}
+                            <p>{{ capsule.description }}</p>
+                        {% endif %}
+                        
+                        <div class="d-flex justify-content-end">
+                            <a href="{% url 'capsule-detail' pk=capsule.pk %}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye me-1"></i>View Details
+                            </a>
+                        </div>
+                        
+                        {% if capsule.items.count > 0 %}
+                            <div class="capsule-items-preview mt-3">
+                                <div class="row row-cols-2 row-cols-md-3 g-2">
+                                    {% for item in capsule.items.all|slice:":3" %}
+                                        <div class="col">
+                                            {% if item.item_type == 'image' and item.image %}
+                                                <div class="preview-item">
+                                                    <img src="{{ item.image.url }}" alt="{{ item.title }}" class="img-fluid rounded shadow-sm">
+                                                </div>
+                                            {% elif item.item_type == 'text' %}
+                                                <div class="preview-item text-preview">
+                                                    <div class="p-2 rounded shadow-sm">
+                                                        <small>{{ item.text_content|truncatechars:50 }}</small>
+                                                    </div>
+                                                </div>
+                                            {% elif item.item_type == 'link' %}
+                                                <div class="preview-item link-preview">
+                                                    <div class="p-2 rounded shadow-sm">
+                                                        <i class="fas fa-link me-1"></i>
+                                                        <small>{{ item.link_url|truncatechars:20 }}</small>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                    
+                                    {% if capsule.items.count > 3 %}
+                                        <div class="col">
+                                            <div class="preview-item more-items d-flex align-items-center justify-content-center">
+                                                <span>+{{ capsule.items.count|add:"-3" }} more</span>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card shadow text-center p-5">
+            <div class="display-1 text-muted mb-3">
+                <i class="fas fa-history"></i>
+            </div>
+            <h3>Your Timeline is Empty</h3>
+            <p class="text-muted mb-4">Your opened time capsules will appear here in chronological order.</p>
+            <div>
+                <a href="{% url 'capsule-create' %}" class="btn btn-primary me-2">
+                    <i class="fas fa-plus me-2"></i>Create a Capsule
+                </a>
+                <a href="{% url 'capsules' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-box me-2"></i>View All Capsules
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .text-preview, .link-preview {
+        background-color: var(--light-color);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .preview-item {
+        height: 75px;
+        overflow: hidden;
+    }
+    
+    .more-items {
+        background-color: var(--light-color);
+        height: 75px;
+        border-radius: 0.25rem;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+</style>
+{% endblock %}
