@@ -3,7 +3,7 @@
     --primary-color: #4B6587;       
     --secondary-color: #C8B6A6;     
     --success-color: #7D9D9C;       
-    --info-color: #9CB4CC;          
+    --info-color: #8098A8;          
     --warning-color: #F0A500;       
     --danger-color: #D57E7E;        
     --light-color: #F3EFEC;        
@@ -41,6 +41,10 @@ main {
 /* Custom Bootstrap Overrides */
 .bg-primary {
     background-color: var(--primary-color) !important;
+}
+
+.bg-info {
+    background-color: var(--info-color) !important;
 }
 
 .btn {
