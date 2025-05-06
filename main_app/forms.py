@@ -29,13 +29,17 @@ class UserRegistrationForm(UserCreationForm):
 class TimeCapsuleForm(forms.ModelForm):
     """Form for creating and editing time capsules"""
     open_date = forms.DateTimeField(
-        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),
         help_text='When would you like to open this capsule?'
     )
     
     class Meta:
         model = TimeCapsule
         fields = ['title', 'description', 'open_date']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
     
     def clean_open_date(self):
         open_date = self.cleaned_data.get('open_date')
@@ -60,7 +64,8 @@ class TextItemForm(forms.ModelForm):
         model = CapsuleItem
         fields = ['title', 'text_content']
         widgets = {
-            'text_content': forms.Textarea(attrs={'rows': 5}),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'text_content': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
         }
     
     def __init__(self, *args, **kwargs):
@@ -72,6 +77,10 @@ class ImageItemForm(forms.ModelForm):
     class Meta:
         model = CapsuleItem
         fields = ['title', 'image']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'image': forms.FileInput(attrs={'class': 'form-control'}),
+        }
     
     def __init__(self, *args, **kwargs):
         super(ImageItemForm, self).__init__(*args, **kwargs)
@@ -82,6 +91,10 @@ class LinkItemForm(forms.ModelForm):
     class Meta:
         model = CapsuleItem
         fields = ['title', 'link_url']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'link_url': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://example.com'}),
+        }
     
     def __init__(self, *args, **kwargs):
         super(LinkItemForm, self).__init__(*args, **kwargs)
