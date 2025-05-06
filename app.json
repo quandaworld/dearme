@@ -1,0 +1,35 @@
+{
+  "name": "DearMe - Digital Time Capsules",
+  "description": "A Django application for creating digital time capsules",
+  "repository": "https://github.com/quandaworld/dearme",
+  "keywords": ["python", "django", "time capsule"],
+  "addons": [
+    "heroku-postgresql:mini"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "env": {
+    "SECRET_KEY": {
+      "description": "A secret key for Django's cryptographic signing",
+      "generator": "secret"
+    },
+    "CLOUDINARY_CLOUD_NAME": {
+      "description": "Cloudinary cloud name for image storage",
+      "value": "dmrctidmc"
+    },
+    "CLOUDINARY_API_KEY": {
+      "description": "Cloudinary API key",
+      "value": "855149599997756"
+    },
+    "CLOUDINARY_API_SECRET": {
+      "description": "Cloudinary API secret",
+      "value": "8k-qO16-Xoa2SeKGMFZxvmClCvA"
+    }
+  },
+  "scripts": {
+    "postdeploy": "python manage.py migrate"
+  }
+} 
