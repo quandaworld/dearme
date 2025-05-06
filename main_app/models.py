@@ -6,7 +6,7 @@ import os
 
 def get_image_path(instance, filename):
     """Generate a file path for an image uploaded to a capsule item"""
-    return os.path.join('capsule_images', str(instance.capsule.user.id), filename)
+    return f"capsule_images/{instance.capsule.user.id}/{filename}"
 
 # This function is kept only for migration compatibility
 def get_audio_path(instance, filename):

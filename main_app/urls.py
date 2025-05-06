@@ -32,5 +32,6 @@ urlpatterns = [
 ]
 
 # Add media files serving during development
+# Note: This is only for development, in production Cloudinary will serve files
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
