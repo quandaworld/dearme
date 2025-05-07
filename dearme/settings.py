@@ -28,8 +28,7 @@ ON_HEROKU = 'DATABASE_URL' in os.environ
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-key-for-development-only')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# Temporarily setting DEBUG to True to see error details on Heroku
-DEBUG = True  # Revert to 'not ON_HEROKU' after troubleshooting
+DEBUG = not ON_HEROKU  # Debug mode disabled in production
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com']
 
