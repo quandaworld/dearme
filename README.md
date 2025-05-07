@@ -1,10 +1,17 @@
 # DearMe
 
-(Work in progress) DearMe is a digital time capsule application that allows users to create messages, memories, and mementos for their future selves. Users can record thoughts, upload images, save links, and add other personal content to capsules that will be “locked” until a future date of their choosing. When that date arrives, the capsule becomes available to open, allowing users to rediscover their past thoughts, goals, and memories.
+DearMe is a digital time capsule application that allows users to create messages, memories, and mementos for their future selves. Users can record thoughts, upload images, save links, and add other personal content to capsules that will be "locked" until a future date of their choosing. When that date arrives, the capsule becomes available to open, allowing users to rediscover their past thoughts, goals, and memories.
+
+[Deployed Site](dearme-a9f3f088e1a2.herokuapp.com)
 
 ## Screenshots
 
-To be updated...
+![Landing Page](main_app/static/img/landingPage.png)
+![Dashboard](main_app/static/img/dashboard.png)
+![New capsule](main_app/static/img/newCapsule.png)
+![Capsule details](main_app/static/img/capsuleDetails.png)
+![Timeline](main_app/static/img/timeline.png)
+![On this day](main_app/static/img/onThisDay.png)
 
 ## Planning Materials
 
@@ -32,4 +39,10 @@ To be updated...
 
 ## Next Steps
 
-To be updated...
+- **Email Notifications**: Implement email notifications for capsule opening dates
+- **Social Sharing**: Add ability to share capsule contents on social media
+- **Mobile App**: Develop a companion mobile application
+- **Advanced Search**: Implement full-text search across capsule contents
+- **Export Feature**: Allow users to export their capsule contents
+- **Theme Customization**: Add more color themes and customization options
+- **Analytics**: Add user engagement and capsule statistics
