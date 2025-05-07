@@ -2,7 +2,7 @@
 
 DearMe is a digital time capsule application that allows users to create messages, memories, and mementos for their future selves. Users can record thoughts, upload images, save links, and add other personal content to capsules that will be "locked" until a future date of their choosing. When that date arrives, the capsule becomes available to open, allowing users to rediscover their past thoughts, goals, and memories.
 
-[Deployed Site](dearme-a9f3f088e1a2.herokuapp.com)
+[Deployed Site](https://dearme-a9f3f088e1a2.herokuapp.com/)
 
 ## Screenshots
 
