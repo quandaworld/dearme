@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'main_app.middleware.CloudinaryInitMiddleware',
 ]
 
 ROOT_URLCONF = 'dearme.urls'
@@ -153,6 +154,8 @@ CLOUDINARY_STORAGE = {
 # Use Cloudinary for media storage only in production
 if ON_HEROKU:
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    # Override MEDIA_URL to use Cloudinary URLs
+    MEDIA_URL = '/media/'  # The actual URL will be handled by Cloudinary
 else:
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
